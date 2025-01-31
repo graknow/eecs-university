@@ -1,3 +1,13 @@
+/*
+*   Author: Grant Knowlton
+*   Date: 1/24/2025
+*
+*   Description:
+*   Counts the occurrences of a user-specified character
+*   and the index of each occurrence.  Then it prints the
+*   results to the standard output.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +18,6 @@ using namespace std;
 int main()
 {
     ifstream characterFS;
-
     characterFS.open("input.txt");
 
     if (!characterFS.is_open())
@@ -25,25 +34,22 @@ int main()
     cout << "Enter the character to search for: ";
     cin >> searchChar;
 
+    // Only one line expected, no need to loop through file contents.
     getline(characterFS, currentLine);
 
-    while (!characterFS.fail())
+    for (int i = 0; i < currentLine.length(); i++)
     {
-        characterFS >> currentLine;
-
-        for (int i = 0; i < currentLine.length(); i++)
+        if (currentLine[i] == searchChar)
         {
-            if (currentLine[i] == searchChar)
-            {
-                searchCharCnt++;
+            searchCharCnt++;
 
-                searchCharIndices.push_back(i);
-            }
+            searchCharIndices.push_back(i);
         }
     }
 
     cout << "The number of occurrences of the character " << searchChar << " is " << searchCharCnt << endl;
 
+    // Only print indeces when there are instances of searchChar found.
     if (0 != searchCharCnt)
     {
         cout << "The indices of the character positions are";
@@ -56,5 +62,7 @@ int main()
         cout << endl;
     }
 
-    return 0;
+    characterFS.close();
+
+    return EXIT_SUCCESS;
 }
