@@ -26,8 +26,7 @@ void CharacterFrequencies::readString(string line)
 
         if (j == frequencies.size())
         {
-            pair<char, int> p(line[i], 1);
-            frequencies.push_back(p);
+            frequencies.push_back(make_pair(line[i], 1));
         }
     }
 }
