@@ -40,7 +40,11 @@ BoundedArray::BoundedArray(BoundedArray& b)
 	operator=(b);
 }
 
-BoundedArray::~BoundedArray() {}
+BoundedArray::~BoundedArray()
+{
+    delete[] elements;
+    elements = nullptr;
+}
 
 int BoundedArray::size()
 {
