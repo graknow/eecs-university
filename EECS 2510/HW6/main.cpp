@@ -1,33 +1,47 @@
 #include <iostream>
+#include <math.h>
+#include <time.h>
+#include <vector>
 #include "AVLTree.h"
 
 using namespace std;
 
 int main()
 {
-    // Single rotate left
-    AVLTree b;
-    Node* bRoot = new Node(2);
-    Node* root = new Node(4);
-    b.insert(bRoot);
-    b.insert(new Node(1));
-    b.insert(new Node(3));
-    b.insert(root);
-    b.insert(new Node(5));
-    b.insert(new Node(6));
+    vector<int> balance_heights;
+    vector<int> no_balance_heights;
+
+    srand(time(0));
+
+    int power;
+
+    cin >> power;
+
+    for (int j = 0; j < 10; j++)
+    {
+        AVLTree balance;
+    AVLTree no_balance;
+
+    for (int i = 0; i < pow(10, power); i++)
+    {
+        double random_double = ( (double)rand() / RAND_MAX );
+        balance.insert(new Node(random_double));
+        no_balance.insertWithoutRebalance(new Node(random_double));
+    }
+    balance_heights.push_back(balance.getRoot()->height);
+    no_balance_heights.push_back(no_balance.getRoot()->height);
+    }
+
     cout << endl;
-    cout << root->key << endl;
-    cout << root->left->key << " " << root->right->key << " " << root->right->right->key << endl;
-    cout << root->left->left->key << " " << root->left->right->key << endl;
-    // Rotate left then right
-    AVLTree c;
-    Node* cRoot = new Node(4);
-    c.insert(cRoot);
-    c.insert(new Node(3));
-    c.insert(new Node(5));
-    c.insert(new Node(1));
-    c.insert(new Node(2));
-    cout << cRoot->key << endl;
-    cout << cRoot->left->key << " " << cRoot->right->key << endl;
-    cout << cRoot->left->left->key << " " << cRoot->left->right->key << endl;
+
+    for (auto i: balance_heights)
+    {
+        cout << " " << i;
+    }
+    cout << endl;
+
+    for (auto i: no_balance_heights)
+    {
+        cout << " " << i;
+    }
 }

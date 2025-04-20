@@ -2,8 +2,29 @@
 #include <algorithm>
 #include <iostream>
 
+#define MAX(a, b) ((a) < (b) ? a : b)
+
 AVLTree::~AVLTree() {
     deleteTree(root);
+}
+
+Node* AVLTree::getRoot()
+{
+    return root;
+}
+
+void AVLTree::print(Node* node, double parent)
+{
+    if (!node)
+    {
+        std::cout << parent << ": nil" << std::endl;
+        return;
+    }
+
+    print(node->left, node->key);
+    print(node->right, node->key);
+
+    std::cout << parent << ": " << node->key << std::endl;
 }
 
 void AVLTree::insert(Node* node)
@@ -128,8 +149,12 @@ void AVLTree::adjustParentHeights(Node* node)
     {
         node->height = node->left->height + 1;
     }
+    else
+    {
+        node->height = MAX(node->left->height, node->right->height) + 1;
+    }
 
-    while (node->parent != nullptr)
+    while (node->parent)
     {
         if (node->parent->height <= node->height)
         {
@@ -201,12 +226,17 @@ void AVLTree::rotate(Node* node, RotateDirection dir)
     newLeft = node->left->left;
     newRight = node;
 
-    if (node->parent->left == node)
+    if (node == root)
+    {
+        root = newHead;
+        newHead->parent = nullptr;
+    }
+    else if (node->parent->left == node)
     {
         node->parent->left = newHead;
         newHead->parent = node->parent;
     }
-    else
+    else if (node->parent->right == node)
     {
         node->parent->right = newHead;
         newHead->parent = node->parent;

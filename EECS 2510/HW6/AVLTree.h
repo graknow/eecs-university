@@ -32,6 +32,8 @@ public:
     void insert(Node* node);
     // Insert a new element without rebalancing the tree
     void insertWithoutRebalance(Node* node);
+    Node* getRoot();
+    void print(Node* node, double parent);
 
 private:
     Node* root = nullptr;
