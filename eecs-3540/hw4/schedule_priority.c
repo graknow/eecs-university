@@ -38,9 +38,6 @@ void schedule()
 {
     Task *current;
 
-    // sanity checker
-    traverse(head);
-
     while (head != NULL) {
         current = pickNextTask();
         
