@@ -40,7 +40,7 @@ int main(int argc, char **argv)
         sscanf(strtok(NULL, ", "), "%d", &priority);
         sscanf(strtok(NULL, ", "), "%d", &burst);
 
-        name = malloc(sizeof(char) * strlen(name_buf));
+        name = malloc((sizeof(char) * strlen(name_buf)) + 1);
         strcpy(name, name_buf);
 
         add(name, priority, burst);
