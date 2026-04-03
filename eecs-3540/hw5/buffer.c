@@ -61,7 +61,7 @@ void *producer(void *param)
         sleep(rand() % 5);
         item = rand();
 
-        wait(&empty);
+        wait(&full);
         wait(&mutex);
 
         if (insert_item(item))
@@ -74,7 +74,7 @@ void *producer(void *param)
         }
 
         signal(&mutex);
-        signal(&full);
+        signal(&empty);
     }
 }
 
@@ -87,7 +87,7 @@ void *consumer(void *param)
         sleep(rand() % 5);
         item = rand();
 
-        wait(&full);
+        wait(&empty);
         wait(&mutex);
 
         if (remove_item(&item))
@@ -100,7 +100,7 @@ void *consumer(void *param)
         }
 
         signal(&mutex);
-        signal(&empty);
+        signal(&full);
     }
 } 
 
@@ -112,11 +112,13 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    srand(time(NULL));
+
     int sleep_time = atoi(argv[1]);
     int producer_cnt = atoi(argv[2]), consumer_cnt = atoi(argv[3]);
     pthread_t tid[MAX_THREAD_COUNT];
     int current_index = 0;
-    full = 0, empty = 1, mutex = 1;
+    full = BUFFER_SIZE, empty = 0, mutex = 1;
 
     for (int j = 0; j < producer_cnt; j++)
     {
